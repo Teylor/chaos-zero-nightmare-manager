@@ -75,4 +75,5 @@ export default defineConfig([
 TODOs:
 
 - Set up code coverage report
+- Github actions workflow
 - Set up CI to run tests and code coverage

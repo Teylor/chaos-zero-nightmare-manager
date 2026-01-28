@@ -1,14 +1,51 @@
-import React from 'react';
+import { useState } from 'react';
+import { useTitle } from '../hooks/useTitle';
+import { IoMdAdd } from 'react-icons/io';
+import useCombatants from '../hooks/useCombatants';
+import useCombatant from '../hooks/useCombatant';
+import CombatantsPanel from '../sections/combatants/CombatantsPanel';
+import CombatantsEdition from '../sections/combatants/CombatantEdition';
 
 export default function Combatants() {
+  useTitle({ title: 'Combatants' });
+  const { combatants, handleDelete, setRefreshFlag } = useCombatants();
+  const [isNew, setIsNew] = useState<boolean>(false);
+  const { combatant, setCombatant } = useCombatant();
+
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8">
-        <h1 className="text-3xl font-bold text-center mb-4 text-gray-800">
-          Combatants
-        </h1>
-        <p className="text-gray-600">List of combatants will appear here.</p>
-      </div>
-    </div>
+    <>
+      <section className="my-8 container">
+        <button
+          hidden={isNew || combatant !== undefined}
+          className="m-1 btn-primary"
+          onClick={() => setIsNew(true)}
+        >
+          <IoMdAdd className="mr-2" />
+          Add Combatant
+        </button>
+        {isNew || combatant !== undefined ? (
+          <CombatantsEdition
+            editedCombatant={combatant}
+            onDone={() => {
+              setIsNew(false);
+              setCombatant(undefined);
+              setRefreshFlag(prev => !prev);
+            }}
+          />
+        ) : (
+          <CombatantsPanel
+            combatants={combatants}
+            handleDelete={handleDelete}
+            setEditedCombatant={(id: string) => {
+              const c = combatants.find(x => x.id === id);
+              if (c) {
+                setCombatant(c);
+                setIsNew(false);
+              }
+            }}
+          />
+        )}
+      </section>
+    </>
   );
 }

@@ -1,83 +1,91 @@
-import { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import './App.css';
 import Combatants from './pages/Combatants';
+import { useTitle } from './hooks/useTitle';
 
 function Home() {
-  const [count, setCount] = useState(0);
+  useTitle({ title: 'Chaos Zero Nightmare Manager' });
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8">
-        <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
-          Chaos Zero Nightmare Manager
+    <div className="w-full flex flex-col items-center">
+      <header className="my-8 container text-center">
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+          <span className="text-white">CHAOS </span>
+          <span className="text-[#FD5613]">ZERO </span>
+          <span className="text-white">NIGHTMARE</span>
+          <span className="block text-2xl md:text-3xl mt-2 text-black font-medium">
+            Roster Manager
+          </span>
         </h1>
-
-        <div className="space-y-6">
-          <div className="text-center">
-            <p className="text-gray-600 mb-4">
-              Welcome to your new project with TypeScript, Tailwind CSS, and
-              Playwright!
-            </p>
-          </div>
-
-          <div className="flex flex-col items-center space-y-4">
-            <button
-              onClick={() => setCount(count => count + 1)}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium"
-            >
-              count is {count}
-            </button>
-
-            <Link to="/combatants" className="text-blue-600 hover:underline">
-              Combatants
-            </Link>
-
-            <p className="text-sm text-gray-500">
-              Edit <code className="bg-gray-100 px-1 rounded">src/App.tsx</code>{' '}
-              and save to test HMR
-            </p>
-          </div>
-
-          <div className="border-t pt-6">
-            <h2 className="text-lg font-semibold mb-3 text-gray-700">
-              Features Included:
-            </h2>
-            <ul className="text-sm text-gray-600 space-y-2">
-              <li className="flex items-center">
-                <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                Vite + React + TypeScript
-              </li>
-              <li className="flex items-center">
-                <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                Tailwind CSS v4
-              </li>
-              <li className="flex items-center">
-                <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                ESLint + Prettier
-              </li>
-              <li className="flex items-center">
-                <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                Husky + lint-staged
-              </li>
-              <li className="flex items-center">
-                <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                Playwright E2E Testing
-              </li>
-            </ul>
-          </div>
+      </header>
+      <section className="my-8 container">
+        <div className="m-1 sm:m-10 grid grid-cols-1 gap-1 md:grid-cols-2">
+          <Link
+            key="combatants-link"
+            to="/combatants"
+            className="btn-home justify-self-center xl:translation-right-home"
+          >
+            Combatants
+          </Link>
+          <Link
+            key="partners-link"
+            to="/partners"
+            className="btn-home justify-self-center xl:translation-left-home"
+          >
+            Partners
+          </Link>
         </div>
-      </div>
+        <div className="m-1 sm:m-10 grid grid-cols-1 gap-1">
+          <Link
+            key="teams-link"
+            to="/teams"
+            className="btn-home justify-self-center"
+          >
+            Teams
+          </Link>
+        </div>
+        <div className="m-1 sm:m-10 grid grid-cols-1 gap-1 md:grid-cols-2">
+          <Link
+            key="savedata-link"
+            to="/savedata"
+            className="btn-home justify-self-center xl:translation-right-home"
+          >
+            Save Datas
+          </Link>
+          <Link
+            key="fragments-link"
+            to="/fragments"
+            className="btn-home justify-self-center xl:translation-left-home"
+          >
+            Memory Fragments
+          </Link>
+        </div>
+      </section>
+      <footer className="min-[400px]:fixed bottom-0 left-0 right-0 py-4 pt-4 text-center text-white bg-black xs:static flex justify-center items-center">
+        <p className="text-sm">
+          &copy; 2024 Chaos Zero Nightmare Roster Manager. All rights reserved.
+        </p>
+      </footer>
     </div>
   );
 }
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/combatants" element={<Combatants />} />
-    </Routes>
+    <>
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-gray-800 px-4 py-3">
+        <Link to="/" className="hover:opacity-80 transition-opacity">
+          <img src="/logo.svg" alt="Chaos Zero Nightmare" className="h-10" />
+        </Link>
+      </header>
+      <main className="bg-[#737373] pt-16 min-h-screen min-w-screen">
+        <div className="flex-1 flex items-center justify-center">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/combatants" element={<Combatants />} />
+          </Routes>
+        </div>
+      </main>
+    </>
   );
 }
 

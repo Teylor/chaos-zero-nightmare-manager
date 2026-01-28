@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -p tsconfig.json && vite build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
@@ -15,11 +15,6 @@
     "test:ui": "playwright test --ui",
     "test:debug": "playwright test --debug",
     "test:codegen": "playwright codegen",
-    "test:unit": "vitest",
-    "test:unit:ui": "vitest --ui",
-    "test:unit:run": "vitest run",
-    "test:coverage": "vitest run --coverage",
-    "test:coverage:ui": "vitest --ui --coverage",
     "prepare": "husky"
   },
   "lint-staged": {
@@ -34,6 +29,7 @@
   "dependencies": {
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-icons": "^5.5.0",
     "react-router-dom": "^6.14.2"
   },
   "devDependencies": {
@@ -43,7 +39,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
-    "@types/node": "^24.10.1",
+    "@types/node": "^24.10.9",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@typescript-eslint/eslint-plugin": "^8.54.0",

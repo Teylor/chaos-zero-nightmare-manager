@@ -24,5 +24,6 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src/**/*.{test,spec}.{ts,tsx}"]
+  "include": ["tests/**/*.{test,spec}.{ts,tsx}"],
+  "exclude": []
 }
