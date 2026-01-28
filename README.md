@@ -71,3 +71,8 @@ export default defineConfig([
   },
 ]);
 ```
+
+TODOs:
+
+- Set up code coverage report
+- Set up CI to run tests and code coverage

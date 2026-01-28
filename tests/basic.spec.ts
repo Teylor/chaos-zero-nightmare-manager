@@ -18,6 +18,8 @@ test('basic UI elements are present', async ({ page }) => {
   await expect(button).toHaveText('count is 0');
 
   // Test the counter functionality
-  await button.click();
-  await expect(button).toHaveText('count is 1');
+  for (let i = 1; i <= 3; i++) {
+    await button.click();
+    await expect(button).toHaveText(`count is ${i}`);
+  }
 });

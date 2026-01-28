@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
 import './App.css';
+import Combatants from './pages/Combatants';
 
-function App() {
+function Home() {
   const [count, setCount] = useState(0);
 
   return (
@@ -26,6 +28,10 @@ function App() {
             >
               count is {count}
             </button>
+
+            <Link to="/combatants" className="text-blue-600 hover:underline">
+              Combatants
+            </Link>
 
             <p className="text-sm text-gray-500">
               Edit <code className="bg-gray-100 px-1 rounded">src/App.tsx</code>{' '}
@@ -63,6 +69,15 @@ function App() {
         </div>
       </div>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/combatants" element={<Combatants />} />
+    </Routes>
   );
 }
 
