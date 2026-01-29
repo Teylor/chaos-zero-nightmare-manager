@@ -1,5 +1,5 @@
 import type { JSX } from 'react';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo, memo } from 'react';
 import { Combatant } from '../../domain/Combatant';
 import { COMBATANTS } from '../../lib/Combatants';
 import { slugify } from '../../utils/utils';
@@ -10,7 +10,7 @@ type Props = {
   onSelect?: (c: Combatant) => void;
 };
 
-export default function CombatantSelector({
+function CombatantSelector({
   disable,
   selected,
   onSelect,
@@ -23,8 +23,10 @@ export default function CombatantSelector({
   const inputRef = useRef<HTMLInputElement | null>(null);
   const itemRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
-  const sortedCombatants = COMBATANTS.sort((a, b) =>
-    a.name.localeCompare(b.name)
+  // Memoize sorted combatants to avoid re-sorting on every render
+  const sortedCombatants = useMemo(
+    () => [...COMBATANTS].sort((a, b) => a.name.localeCompare(b.name)),
+    []
   );
 
   useEffect(() => {
@@ -41,6 +43,7 @@ export default function CombatantSelector({
       .replace(/\p{Diacritic}/gu, '');
 
     if (!query) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setCombatants(sortedCombatants);
       return;
     }
@@ -53,8 +56,7 @@ export default function CombatantSelector({
         return terms.every(t => target.includes(t));
       })
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTerm]);
+  }, [searchTerm, sortedCombatants]);
 
   const handleOutsideClick = useCallback((e: MouseEvent) => {
     if (
@@ -82,6 +84,7 @@ export default function CombatantSelector({
 
   useEffect(() => {
     if (!isOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setHighlightedIndex(-1);
       itemRefs.current = [];
     }
@@ -131,6 +134,7 @@ export default function CombatantSelector({
                 text-left flex items-center justify-between focus:outline-none 
                 focus:ring-2 focus:ring-zinc-400 focus:border-zinc-400"
         style={{ backgroundColor: '#9d9d9d' }}
+        aria-label="Select Combatant"
       >
         <span className="flex items-center gap-2">
           {selected && (
@@ -171,11 +175,11 @@ export default function CombatantSelector({
               onMouseEnter={() => setHighlightedIndex(index)}
               onKeyDown={e => handleItemKeyDown(e, index)}
               onClick={() => {
-                // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                onSelect &&
+                if (onSelect) {
                   onSelect(
                     new Combatant(`${c.name}-${Date.now()}`, c.name, 0, 0)
                   );
+                }
                 setIsOpen(false);
               }}
               className={`px-3 py-2 text-lg font-bold w-full
@@ -198,3 +202,5 @@ export default function CombatantSelector({
     </div>
   );
 }
+
+export default memo(CombatantSelector);

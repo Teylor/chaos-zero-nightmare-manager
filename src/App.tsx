@@ -1,6 +1,7 @@
 import { Routes, Route, Link } from 'react-router-dom';
 import Combatants from './pages/Combatants';
 import { useTitle } from './hooks/useTitle';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 function Home() {
   useTitle({ title: 'Chaos Zero Nightmare Manager' });
@@ -79,10 +80,12 @@ function App() {
       </header>
       <main className="bg-[#737373] pt-16 min-h-screen min-w-screen">
         <div className="flex-1 flex items-center justify-center">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/combatants" element={<Combatants />} />
-          </Routes>
+          <ErrorBoundary>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/combatants" element={<Combatants />} />
+            </Routes>
+          </ErrorBoundary>
         </div>
       </main>
     </>
